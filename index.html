@@ -1,125 +1,467 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Amaan Ali | Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amaan Ali | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #13131c;
+      --card2: #16161f;
+      --border: #252535;
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --text: #e8e8f0;
+      --muted: #7878a0;
+      --glow: 0 0 30px rgba(0,229,255,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 5% 15%, rgba(124,58,237,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 80% at 95% 85%, rgba(0,229,255,0.05) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family:'Space Mono',monospace; font-size:1rem; color:var(--accent); letter-spacing:2px; text-decoration:none; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:0.78rem; letter-spacing:1.5px; text-transform:uppercase; font-family:'Space Mono',monospace; transition:color .2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--accent); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--accent); border-radius:2px; transition:all .3s; }
+    .mobile-menu { display:none; flex-direction:column; position:fixed; top:60px; left:0; right:0; background:rgba(10,10,15,.97); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); padding:1.5rem 2rem; gap:1rem; z-index:199; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { color:var(--muted); text-decoration:none; font-family:'Space Mono',monospace; font-size:.85rem; padding:.6rem 0; border-bottom:1px solid var(--border); transition:color .2s; }
+    .mobile-menu a:hover { color:var(--accent); }
+    /* HERO */
+    #hero { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:7rem 2rem 4rem; position:relative; z-index:1; }
+    .hero-inner { max-width:1100px; width:100%; display:grid; grid-template-columns:1fr 400px; gap:4rem; align-items:center; }
+    .hero-tag { display:inline-block; font-family:'Space Mono',monospace; font-size:.72rem; color:var(--accent3); letter-spacing:3px; text-transform:uppercase; border:1px solid rgba(16,185,129,.3); padding:.35rem 1rem; border-radius:100px; margin-bottom:1.4rem; animation:fadeUp .5s ease both; }
+    .hero-name { font-size:clamp(2.6rem,6vw,4.2rem); font-weight:800; line-height:1.05; margin-bottom:.8rem; animation:fadeUp .6s .1s ease both; }
+    .hero-name .hl { background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-role { font-size:1.1rem; color:var(--muted); margin-bottom:1.2rem; animation:fadeUp .6s .15s ease both; line-height:1.5; }
+    .hero-desc { font-size:.9rem; color:var(--muted); line-height:1.8; margin-bottom:2rem; animation:fadeUp .6s .2s ease both; }
+    .hero-desc strong { color:var(--text); }
+    .hero-location { font-family:'Space Mono',monospace; font-size:.72rem; color:var(--muted); margin-bottom:2rem; animation:fadeUp .6s .22s ease both; }
+    .hero-location i { color:var(--accent3); margin-right:.4rem; }
+    .hero-btns { display:flex; gap:.8rem; flex-wrap:wrap; animation:fadeUp .6s .25s ease both; }
+    .hero-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; display:flex; flex-direction:column; gap:1rem; animation:fadeUp .7s .3s ease both; }
+    .hc-title { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:.2rem; }
+    .stat-row { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+    .stat-box { background:var(--card2); border:1px solid var(--border); border-radius:10px; padding:1rem; text-align:center; }
+    .stat-num { font-size:1.6rem; font-weight:800; color:var(--accent); line-height:1; }
+    .stat-label { font-size:.68rem; color:var(--muted); font-family:'Space Mono',monospace; margin-top:.3rem; }
+    .skill-pills { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .pill { font-family:'Space Mono',monospace; font-size:.63rem; padding:.28rem .7rem; border-radius:100px; border:1px solid var(--border); color:var(--muted); transition:all .2s; }
+    .pill:hover { border-color:var(--accent); color:var(--accent); }
+    /* BUTTONS */
+    .btn { display:inline-flex; align-items:center; gap:.45rem; padding:.7rem 1.5rem; border-radius:6px; font-family:'Space Mono',monospace; font-size:.75rem; letter-spacing:1px; text-decoration:none; cursor:pointer; transition:all .22s; border:none; }
+    .btn-primary { background:var(--accent); color:#000; font-weight:700; }
+    .btn-primary:hover { background:#fff; box-shadow:var(--glow); transform:translateY(-2px); }
+    .btn-outline { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+    .btn-outline:hover { background:rgba(0,229,255,.08); transform:translateY(-2px); box-shadow:var(--glow); }
+    .btn-ghost { background:transparent; color:var(--muted); border:1px solid var(--border); }
+    .btn-ghost:hover { color:var(--text); border-color:var(--muted); transform:translateY(-2px); }
+    .btn-purple { background:transparent; color:#a78bfa; border:1px solid rgba(124,58,237,.4); }
+    .btn-purple:hover { background:rgba(124,58,237,.1); transform:translateY(-2px); }
+    .btn-green { background:transparent; color:var(--accent3); border:1px solid rgba(16,185,129,.4); }
+    .btn-green:hover { background:rgba(16,185,129,.08); transform:translateY(-2px); }
+    /* SECTIONS */
+    .sw { position:relative; z-index:1; padding:5rem 2rem; }
+    .si { max-width:1100px; margin:0 auto; }
+    .s-label { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:.5rem; }
+    .s-title { font-size:clamp(1.8rem,3.5vw,2.4rem); font-weight:800; margin-bottom:2.5rem; line-height:1.1; }
+    .s-title span { background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .divider { border:none; height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); }
+    /* PROJECTS */
+    .proj-cat { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; margin-top:.5rem; }
+    .proj-cat-label { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+    .proj-cat-line { flex:1; height:1px; background:var(--border); }
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:1.25rem; margin-bottom:3rem; }
+    .pc { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; transition:border-color .25s,transform .25s,box-shadow .25s; }
+    .pc:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 16px 48px rgba(0,229,255,.07); }
+    .pc-img { height:150px; display:flex; align-items:center; justify-content:center; font-size:3.2rem; position:relative; overflow:hidden; }
+    .pc-img::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,var(--card)); }
+    .img-sql  { background:linear-gradient(135deg,#0d1117,#1a2233); }
+    .img-ml   { background:linear-gradient(135deg,#120d1a,#1e1135); }
+    .img-pbi  { background:linear-gradient(135deg,#0d1a14,#112b1e); }
+    .img-agri { background:linear-gradient(135deg,#111a0d,#1e2b11); }
+    .img-skin { background:linear-gradient(135deg,#1a0d12,#2b111a); }
+    .pc-body { padding:1.2rem 1.25rem 1.4rem; flex:1; display:flex; flex-direction:column; }
+    .badge { display:inline-block; font-family:'Space Mono',monospace; font-size:.6rem; padding:.18rem .65rem; border-radius:4px; margin-bottom:.65rem; letter-spacing:.8px; }
+    .b-sql      { background:rgba(0,229,255,.08);    color:var(--accent);  border:1px solid rgba(0,229,255,.2); }
+    .b-ml       { background:rgba(124,58,237,.12);   color:#a78bfa;        border:1px solid rgba(124,58,237,.25); }
+    .b-pbi      { background:rgba(245,158,11,.1);    color:#fbbf24;        border:1px solid rgba(245,158,11,.25); }
+    .b-research { background:rgba(16,185,129,.1);    color:var(--accent3); border:1px solid rgba(16,185,129,.25); }
+    .b-agri     { background:rgba(16,185,129,.1);    color:var(--accent3); border:1px solid rgba(16,185,129,.25); }
+    .pc h3 { font-size:.98rem; font-weight:700; margin-bottom:.5rem; line-height:1.35; }
+    .pc p  { font-size:.82rem; color:var(--muted); line-height:1.65; flex:1; margin-bottom:1.1rem; }
+    .pc-foot { display:flex; gap:.5rem; flex-wrap:wrap; }
+    /* EXPERIENCE */
+    .exp-grid { display:grid; gap:1.25rem; }
+    .exp-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.5rem 1.75rem; display:grid; grid-template-columns:44px 1fr; gap:1.25rem; align-items:start; transition:border-color .25s,transform .25s; }
+    .exp-card:hover { border-color:var(--accent2); transform:translateX(4px); }
+    .exp-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .ei-cog { background:rgba(0,229,255,.08); }
+    .ei-inn { background:rgba(124,58,237,.1); }
+    .exp-meta { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem; margin-bottom:.3rem; }
+    .exp-company { font-size:1rem; font-weight:700; }
+    .exp-date { font-family:'Space Mono',monospace; font-size:.68rem; color:var(--accent); background:rgba(0,229,255,.07); border:1px solid rgba(0,229,255,.2); padding:.22rem .7rem; border-radius:100px; }
+    .exp-role { font-size:.82rem; color:var(--accent2); font-weight:600; margin-bottom:.8rem; }
+    .exp-list { list-style:none; display:flex; flex-direction:column; gap:.3rem; }
+    .exp-list li { font-size:.82rem; color:var(--muted); padding-left:1.1rem; position:relative; line-height:1.5; }
+    .exp-list li::before { content:'▸'; position:absolute; left:0; color:var(--accent3); }
+    /* ABOUT */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+    .about-text p { color:var(--muted); line-height:1.8; margin-bottom:1rem; font-size:.9rem; }
+    .about-text p strong { color:var(--text); }
+    .skill-blocks { display:grid; gap:.9rem; }
+    .skb { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:.9rem 1.1rem; transition:border-color .2s,transform .2s; }
+    .skb:hover { border-color:var(--accent); transform:translateX(4px); }
+    .skb-title { font-size:.72rem; font-family:'Space Mono',monospace; color:var(--accent); letter-spacing:1px; margin-bottom:.35rem; }
+    .skb-body  { font-size:.82rem; color:var(--muted); }
+    /* CONTACT */
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+    .contact-cards { display:flex; flex-direction:column; gap:1rem; }
+    .cc { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; background:var(--card); border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); transition:border-color .22s,transform .22s; }
+    .cc:hover { border-color:var(--accent); transform:translateX(4px); }
+    .cc-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:rgba(0,229,255,.07); color:var(--accent); font-size:.95rem; flex-shrink:0; }
+    .cc-label { font-family:'Space Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+    .cc-val { font-size:.88rem; font-weight:600; }
+    .social-stack { display:flex; flex-direction:column; gap:.9rem; }
+    .sl { display:flex; align-items:center; gap:1rem; padding:1.1rem 1.4rem; border-radius:12px; text-decoration:none; border:1px solid var(--border); transition:all .22s; }
+    .sl.li { background:rgba(10,102,194,.08); color:#60a5fa; }
+    .sl.li:hover { background:rgba(10,102,194,.16); border-color:#60a5fa; transform:translateY(-2px); }
+    .sl.gh { background:rgba(255,255,255,.03); color:var(--text); }
+    .sl.gh:hover { background:rgba(255,255,255,.07); border-color:var(--muted); transform:translateY(-2px); }
+    .sl i { font-size:1.3rem; width:26px; text-align:center; }
+    .sl-text { font-size:.88rem; font-weight:700; }
+    .sl-sub  { font-size:.72rem; color:var(--muted); font-family:'Space Mono',monospace; }
+    /* FOOTER */
+    footer { border-top:1px solid var(--border); text-align:center; padding:1.8rem 2rem; font-family:'Space Mono',monospace; font-size:.72rem; color:var(--muted); position:relative; z-index:1; }
+    footer span { color:var(--accent); }
+    /* ANIM */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity:0; transform:translateY(22px); transition:opacity .55s ease,transform .55s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    .scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:.35rem; color:var(--muted); font-family:'Space Mono',monospace; font-size:.6rem; letter-spacing:2px; animation:bobble 2s ease-in-out infinite; }
+    @keyframes bobble { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
+    /* RESPONSIVE */
+    @media(max-width:900px){ .hero-inner{grid-template-columns:1fr} .hero-card{display:none} }
+    @media(max-width:768px){
+      nav{padding:1rem 1.25rem} .nav-links{display:none} .hamburger{display:flex}
+      .about-grid,.contact-grid{grid-template-columns:1fr} .projects-grid{grid-template-columns:1fr}
+      .sw{padding:3.5rem 1.25rem} .exp-card{grid-template-columns:1fr} .exp-icon{display:none}
+    }
+  </style>
+</head>
+<body>
 
-		<div id="wrapper">
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Amaan Ali_</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about"      onclick="closeMenu()">About</a>
+  <a href="#projects"   onclick="closeMenu()">Projects</a>
+  <a href="#experience" onclick="closeMenu()">Experience</a>
+  <a href="#contact"    onclick="closeMenu()">Contact</a>
+</div>
 
-				<header id="header">
-						<div class="logo">
-							<span class="icon fa-gem"></span>
-						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>Hi, I'm Amaan Ali</h1>
-								<p>M.Tech Data Science Graduate & BI Specialist<br />
-								Skilled in SQL, Python, Power BI, and SAP S/4HANA.</p>
-							</div>
-						</div>
-						<nav>
-							<ul>
-								<li><a href="#intro">About</a></li>
-								<li><a href="#work">Projects</a></li>
-								<li><a href="#experience">Experience</a></li>
-								<li><a href="#contact">Contact</a></li>
-							</ul>
-						</nav>
-					</header>
+<!-- HERO -->
+<section id="hero" class="sw" style="min-height:100vh;display:flex;align-items:center;padding-top:7rem;">
+  <div class="si" style="width:100%">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">✦ Open to Opportunities</div>
+        <h1 class="hero-name">Hi, I'm <span class="hl">Amaan Ali</span></h1>
+        <p class="hero-role">M.Tech Data Science Graduate &amp; BI Specialist</p>
+        <p class="hero-desc">
+          Expert in <strong>SQL Database Management</strong>, <strong>Machine Learning</strong>, and interactive
+          <strong>Data Visualization</strong> using Power BI &amp; Tableau. Building data-driven solutions
+          from Agri-Tech AI to enterprise SAP S/4HANA.
+        </p>
+        <p class="hero-location"><i class="fa-solid fa-location-dot"></i> Vijayapura, Karnataka, India</p>
+        <div class="hero-btns">
+          <a href="#projects"   class="btn btn-primary"><i class="fa-solid fa-layer-group"></i> View Projects</a>
+          <a href="https://github.com/Amaanali06" target="_blank" class="btn btn-outline"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/amaan-ali-tegginamani-a0676125a" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-title">Quick Stats</div>
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-num">2+</div><div class="stat-label">Internships</div></div>
+          <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Projects</div></div>
+          <div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Publication</div></div>
+          <div class="stat-box"><div class="stat-num" style="font-size:1.1rem">M.Tech</div><div class="stat-label">Degree</div></div>
+        </div>
+        <div class="hc-title" style="margin-top:.4rem">Core Stack</div>
+        <div class="skill-pills">
+          <span class="pill">SQL</span><span class="pill">Python</span><span class="pill">Power BI</span>
+          <span class="pill">Tableau</span><span class="pill">SAP S/4HANA</span>
+          <span class="pill">Azure</span><span class="pill">LLMs</span><span class="pill">Pandas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><i class="fa-solid fa-chevron-down"></i><span>SCROLL</span></div>
+</section>
 
-				<div id="main">
+<hr class="divider">
 
-						<article id="intro">
-								<h2 class="major">About Me</h2>
-								<span class="image main"><img src="images/pic01.jpg" alt="Profile" /></span>
-								<p>I am an M.Tech Data Science graduate from <strong>JSS Academy of Technical Education, Bangalore</strong>. I am passionate about transforming raw data into actionable business intelligence.</p>
-								<p>My journey involved moving from a Bachelor's in ISE to advanced Data Analytics, where I now focus on <strong>Agri-Tech AI agents</strong> and <strong>SAP S/4HANA (MM)</strong>.</p>
-								
-								<h3>Tools & Technologies</h3>
-								<ul>
-									<li><strong>Data Analysis:</strong> SQL (MySQL/PostgreSQL), Python (Pandas, NumPy)</li>
-									<li><strong>Visualization:</strong> Power BI, Tableau, Excel</li>
-									<li><strong>Advanced Tech:</strong> Few-Shot Learning, LLMs, Azure Data Factory</li>
-								</ul>
-							</article>
+<!-- ABOUT -->
+<section id="about" class="sw">
+  <div class="si">
+    <p class="s-label">// 01 — about</p>
+    <h2 class="s-title">Who I <span>Am</span></h2>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>I'm an <strong>M.Tech Data Science</strong> graduate from JSS Academy of Technical Education, Bangalore. Passionate about transforming raw data into actionable business intelligence.</p>
+        <p>My journey started with a Bachelor's in ISE before transitioning into advanced Data Analytics, where I now focus on building <strong>Agri-Tech AI agents</strong> and working with enterprise <strong>SAP S/4HANA (MM)</strong> systems.</p>
+        <p>I specialize in the full analytics pipeline — from SQL extraction and Python processing to interactive Power BI and Tableau dashboards that drive real business decisions.</p>
+      </div>
+      <div class="skill-blocks fade-in">
+        <div class="skb"><div class="skb-title">📊 Data Analysis</div><div class="skb-body">SQL (MySQL / PostgreSQL), Python (Pandas, NumPy, Scikit-Learn)</div></div>
+        <div class="skb"><div class="skb-title">📈 Visualization &amp; BI</div><div class="skb-body">Power BI, Tableau, Microsoft Excel (Advanced)</div></div>
+        <div class="skb"><div class="skb-title">🤖 AI / Machine Learning</div><div class="skb-body">Few-Shot Learning, LLMs, Predictive Modelling</div></div>
+        <div class="skb"><div class="skb-title">☁️ Cloud &amp; Enterprise</div><div class="skb-body">Azure Data Factory, SAP S/4HANA (Materials Management)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-						<article id="work">
-								<h2 class="major">Projects</h2>
-								
-								<h3>Mandi Insight | Agri-Tech AI</h3>
-								<span class="image main"><img src="images/mandi.jpg" alt="Mandi Insight" /></span>
-								<p>Developed an AI agent designed to help farmers in Karnataka by providing real-time market prices and sell-or-hold recommendations.</p>
-								<ul class="actions special">
-									<li><a href="https://github.com/Amaanali06" class="button">View Project</a></li>
-								</ul>
+<hr class="divider">
 
-								<hr />
+<!-- PROJECTS -->
+<section id="projects" class="sw">
+  <div class="si">
+    <p class="s-label">// 02 — projects</p>
+    <h2 class="s-title">Featured <span>Work</span></h2>
 
-								<h3>Skin Disease Detection | Research</h3>
-								<span class="image main"><img src="images/skin.jpg" alt="Skin Disease Project" /></span>
-								<p>Published a research paper at <strong>ICIDCA</strong> on detecting rare skin diseases using <strong>Few-Shot Learning</strong>.</p>
-								<ul class="actions special">
-									<li><a href="#" class="button">Read Publication</a></li>
-								</ul>
+    <!-- SQL -->
+    <div class="proj-cat"><span class="proj-cat-label">SQL Projects</span><div class="proj-cat-line"></div></div>
+    <div class="projects-grid">
+      <div class="pc fade-in">
+        <div class="pc-img img-sql">🗄️</div>
+        <div class="pc-body">
+          <span class="badge b-sql">SQL · MySQL</span>
+          <h3>Sales Database Analysis</h3>
+          <p>Advanced SQL queries for trend analysis, inventory management, and customer segmentation using window functions, CTEs, and complex joins across multiple tables.</p>
+          <div class="pc-foot">
+            <a href="https://github.com/Amaanali06" target="_blank" class="btn btn-outline" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-brands fa-github"></i> View Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-								<hr />
+    <!-- Machine Learning -->
+    <div class="proj-cat"><span class="proj-cat-label">Machine Learning</span><div class="proj-cat-line"></div></div>
+    <div class="projects-grid">
+      <div class="pc fade-in">
+        <div class="pc-img img-ml">🤖</div>
+        <div class="pc-body">
+          <span class="badge b-ml">Python · Scikit-Learn</span>
+          <h3>Business Metric Prediction Model</h3>
+          <p>Predictive model using Python and Scikit-Learn to forecast business metrics with <strong style="color:var(--text)">90%+ accuracy</strong>. Covers feature engineering, model tuning, and evaluation.</p>
+          <div class="pc-foot">
+            <a href="https://github.com/Amaanali06" target="_blank" class="btn btn-purple" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-brands fa-github"></i> View Model</a>
+          </div>
+        </div>
+      </div>
 
-								<h3>Power BI: Insurance Dashboard</h3>
-								<span class="image main"><img src="images/insurance_dashboard.png" alt="Insurance" /></span>
-								<p>End-to-end analysis of customer shopping patterns and behavioral trends using SQL and Power BI.</p>
-								<ul class="actions special">
-									<li><a href="https://github.com/Amaanali06/Inusrance_dashboard" class="button">Live Demo</a></li>
-								</ul>
-							</article>
+      <div class="pc fade-in">
+        <div class="pc-img img-agri">🌾</div>
+        <div class="pc-body">
+          <span class="badge b-agri">Agri-Tech · AI Agent</span>
+          <h3>Mandi Insight</h3>
+          <p>AI agent helping Karnataka farmers with real-time market prices and data-driven sell-or-hold recommendations — built using LLMs and live mandi data feeds.</p>
+          <div class="pc-foot">
+            <a href="https://github.com/Amaanali06" target="_blank" class="btn btn-green" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-brands fa-github"></i> View Project</a>
+          </div>
+        </div>
+      </div>
 
-						<article id="experience">
-								<h2 class="major">Experience</h2>
-								<h3>Cognizant Technology Solutions</h3>
-								<p><strong>Programmer Analyst Intern</strong> (May 2025 – Aug 2025)</p>
-								<ul>
-									<li>Optimized data workflows and business processes.</li>
-								</ul>
+      <div class="pc fade-in">
+        <div class="pc-img img-skin">🔬</div>
+        <div class="pc-body">
+          <span class="badge b-research">Research · ICIDCA</span>
+          <h3>Skin Disease Detection</h3>
+          <p>Published at ICIDCA — detecting rare skin diseases using <strong style="color:var(--text)">Few-Shot Learning</strong>, achieving high accuracy with minimal labelled training samples.</p>
+          <div class="pc-foot">
+            <a href="mailto:amaanav100@gmail.com" class="btn btn-green" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-solid fa-file-lines"></i> Request Paper</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-								<h3>Innovate Metrics Technologies</h3>
-								<p><strong>Data Analyst Intern</strong> (Nov 2024 – Jan 2025)</p>
-								<ul>
-									<li>Built interactive dashboards and performed SQL-based trend analysis.</li>
-								</ul>
-							</article>
+    <!-- Power BI -->
+    <div class="proj-cat"><span class="proj-cat-label">Power BI Dashboards</span><div class="proj-cat-line"></div></div>
+    <div class="projects-grid">
+      <div class="pc fade-in">
+        <div class="pc-img img-pbi">📊</div>
+        <div class="pc-body">
+          <span class="badge b-pbi">Power BI · SQL · Python</span>
+          <h3>Customer Behaviour Dashboard</h3>
+          <p>End-to-end analysis — SQL for data extraction, Python for behavioral trends, Power BI for interactive visualization of customer shopping patterns and segmentation.</p>
+          <div class="pc-foot">
+            <a href="https://github.com/Amaanali06/customer-dashboard" target="_blank" class="btn btn-outline" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-solid fa-chart-bar"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
 
-						<article id="contact">
-								<h2 class="major">Contact</h2>
-								<p>Feel free to reach out for collaborations or job opportunities.</p>
-								<ul class="contact">
-									<li class="icon solid fa-envelope"> amaanav100@gmail.com</li>
-									<li class="icon solid fa-home"> Vijayapura, Karnataka, India</li>
-								</ul>
-								<ul class="icons">
-									<li><a href="https://www.linkedin.com/in/amaan-ali-tegginamani-a0676125a" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
-									<li><a href="https://github.com/Amaanali06" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</article>
+      <div class="pc fade-in">
+        <div class="pc-img img-pbi">🛡️</div>
+        <div class="pc-body">
+          <span class="badge b-pbi">Power BI · SQL</span>
+          <h3>Insurance Analytics Dashboard</h3>
+          <p>End-to-end analysis of customer shopping patterns and behavioral trends using SQL extraction, Python processing, and Power BI for actionable insurance insights.</p>
+          <div class="pc-foot">
+            <a href="https://github.com/Amaanali06/Inusrance_dashboard" target="_blank" class="btn btn-outline" style="font-size:.7rem;padding:.5rem 1rem"><i class="fa-solid fa-chart-bar"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-					</div>
+  </div>
+</section>
 
-				<footer id="footer">
-						<p class="copyright">&copy; Amaan Ali. Design adapted from HTML5 UP.</p>
-					</footer>
+<hr class="divider">
 
-			</div>
+<!-- EXPERIENCE -->
+<section id="experience" class="sw">
+  <div class="si">
+    <p class="s-label">// 03 — experience</p>
+    <h2 class="s-title">Work <span>History</span></h2>
+    <div class="exp-grid">
+      <div class="exp-card fade-in">
+        <div class="exp-icon ei-cog">🏢</div>
+        <div>
+          <div class="exp-meta">
+            <span class="exp-company">Cognizant Technology Solutions</span>
+            <span class="exp-date">May 2025 – Aug 2025</span>
+          </div>
+          <div class="exp-role">Programmer Analyst Intern</div>
+          <ul class="exp-list">
+            <li>Optimized data workflows and automated business processes using enterprise tools.</li>
+            <li>Collaborated across teams to deliver BI solutions aligned with business goals.</li>
+            <li>Worked on data pipeline improvements to reduce processing time.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-card fade-in">
+        <div class="exp-icon ei-inn">📐</div>
+        <div>
+          <div class="exp-meta">
+            <span class="exp-company">Innovate Metrics Technologies</span>
+            <span class="exp-date">Nov 2024 – Jan 2025</span>
+          </div>
+          <div class="exp-role">Data Analyst Intern</div>
+          <ul class="exp-list">
+            <li>Built interactive Power BI dashboards for real-time KPI monitoring.</li>
+            <li>Performed SQL-based trend analysis to surface actionable insights for stakeholders.</li>
+            <li>Automated recurring reports, saving significant manual effort each reporting cycle.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-		<div id="bg"></div>
+<hr class="divider">
 
-		<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+<!-- CONTACT -->
+<section id="contact" class="sw">
+  <div class="si">
+    <p class="s-label">// 04 — contact</p>
+    <h2 class="s-title">Get In <span>Touch</span></h2>
+    <div class="contact-grid">
+      <div class="contact-cards fade-in">
+        <a href="mailto:amaanav100@gmail.com" class="cc">
+          <div class="cc-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div><div class="cc-label">Email</div><div class="cc-val">amaanav100@gmail.com</div></div>
+        </a>
+        <div class="cc" style="cursor:default">
+          <div class="cc-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div><div class="cc-label">Location</div><div class="cc-val">Vijayapura, Karnataka, India</div></div>
+        </div>
+        <div class="cc" style="cursor:default">
+          <div class="cc-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div><div class="cc-label">Education</div><div class="cc-val">M.Tech Data Science · JSS Academy, Bangalore</div></div>
+        </div>
+      </div>
+      <div class="social-stack fade-in">
+        <a href="https://www.linkedin.com/in/amaan-ali-tegginamani-a0676125a" target="_blank" class="sl li">
+          <i class="fa-brands fa-linkedin"></i>
+          <div><div class="sl-text">LinkedIn</div><div class="sl-sub">amaan-ali-tegginamani</div></div>
+        </a>
+        <a href="https://github.com/Amaanali06" target="_blank" class="sl gh">
+          <i class="fa-brands fa-github"></i>
+          <div><div class="sl-text">GitHub</div><div class="sl-sub">Amaanali06</div></div>
+        </a>
+        <a href="mailto:amaanav100@gmail.com" class="btn btn-primary" style="justify-content:center;width:100%;padding:1rem;font-size:.82rem">
+          <i class="fa-solid fa-paper-plane"></i> Send Me an Email
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-	</body>
+<footer>
+  <p>Designed &amp; built by <span>Amaan Ali</span> &nbsp;·&nbsp; &copy; 2025 &nbsp;·&nbsp; M.Tech Data Science Graduate</p>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMenu() { mobileMenu.classList.remove('open'); }
+
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    document.querySelectorAll('section[id]').forEach(s => {
+      if (window.scrollY >= s.offsetTop - 130) cur = s.id;
+    });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
 </html>
